@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+/*using Newtonsoft.Json;*/
 using RedisDemo.Models;
 using RedisDemo.SessionFactory;
 using System.Text;
@@ -11,7 +12,7 @@ namespace RedisDemo.Services
     {
         private readonly INHibernateSessionFactory _sessionFactory;
         private readonly IDistributedCache _distributedCache;
-        private string KeyName = "Master";
+        private string KeyName = "GetProducts";
         Response response = new Response();
         public ProductService(INHibernateSessionFactory sessionFactory, IDistributedCache distributedCache)
         {
@@ -69,8 +70,9 @@ namespace RedisDemo.Services
                 var EncodedList = _distributedCache.Get(KeyName);
                 if(EncodedList != null)
                 {
+                    response.Data = new List<Product>();
                     serializedList = Encoding.UTF8.GetString(EncodedList);
-                    response.Data = JsonConvert.DeserializeObject<object>(serializedList);
+                    response.Data = JsonConvert.DeserializeObject<List<Product>>(serializedList);
                 }
                 else
                 {
@@ -85,8 +87,8 @@ namespace RedisDemo.Services
                         _distributedCache.Set(KeyName, EncodedList, options);
                     }
                 }
-                
-               // response.Data = session.QueryOver<Product>().List();
+
+                // response.Data = session.QueryOver<Product>().List();
                 return response;
             }
         }
