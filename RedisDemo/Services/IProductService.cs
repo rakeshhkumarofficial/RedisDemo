@@ -6,5 +6,7 @@ namespace RedisDemo.Services
     {
         public Response AddProduct(AddProductRequest addProduct);
         public Response GetProduct();
+        public Response UpdateProduct(Product updateProduct);
+        public Response DeleteProduct(Guid Id);
     }
 }

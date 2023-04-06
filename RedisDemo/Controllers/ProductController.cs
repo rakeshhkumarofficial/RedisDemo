@@ -30,5 +30,20 @@ namespace RedisDemo.Controllers
             var res = _productService.AddProduct(addProduct);
             return Ok(res);
         }
+
+        [HttpPut]
+        public IActionResult Put(Product updateProduct)
+        {
+            var res = _productService.UpdateProduct(updateProduct);
+            return Ok(res);
+        }
+
+
+        [HttpDelete]
+        public IActionResult Delete(Guid Id)
+        {
+            var res = _productService.DeleteProduct(Id);
+            return Ok(res);
+        }
     }
 }
